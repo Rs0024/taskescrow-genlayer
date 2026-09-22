@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskEscrow | GenLayer</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #07111f;
+      color: #f4f7fb;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: auto;
+    }
+
+    header {
+      border-bottom: 1px solid #243247;
+      background: #0a1626;
+    }
+
+    nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .badge {
+      border: 1px solid #44556d;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #cbd6e5;
+    }
+
+    .hero {
+      padding: 90px 0 70px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 72px);
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: #75a7ff;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0 auto 30px;
+      color: #b9c5d5;
+      font-size: 18px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      border: 1px solid #42546d;
+      background: #111f32;
+    }
+
+    .button.primary {
+      background: #f4f7fb;
+      color: #07111f;
+      border-color: #f4f7fb;
+    }
+
+    section {
+      padding: 65px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .section-title h2 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      color: #9faec1;
+    }
+
+    .contract-card {
+      background: #0c192a;
+      border: 1px solid #26364c;
+      border-radius: 14px;
+      padding: 28px;
+    }
+
+    .status {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid #37506e;
+      color: #b9d1ef;
+      font-size: 13px;
+    }
+
+    .contract-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .field {
+      background: #091522;
+      border: 1px solid #22334a;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .field small {
+      color: #8293a8;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .address {
+      overflow-wrap: anywhere;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .step {
+      background: #0c192a;
+      border: 1px solid #26364c;
+      border-radius: 14px;
+      padding: 25px;
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #172a43;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .step h3 {
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      color: #aebbc9;
+    }
+
+    .methods {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .method-box {
+      background: #0c192a;
+      border: 1px solid #26364c;
+      border-radius: 14px;
+      padding: 25px;
+    }
+
+    .method-box h3 {
+      margin-bottom: 15px;
+    }
+
+    code {
+      display: block;
+      background: #07111f;
+      border: 1px solid #1f3046;
+      border-radius: 7px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      color: #d9e6f7;
+      overflow-wrap: anywhere;
+    }
+
+    .note {
+      margin-top: 25px;
+      padding: 18px;
+      background: #101d2d;
+      border-left: 3px solid #7597c7;
+      color: #b8c5d5;
+    }
+
+    footer {
+      padding: 35px 0;
+      border-top: 1px solid #243247;
+      text-align: center;
+      color: #8595a9;
+    }
+
+    @media (max-width: 760px) {
+      .contract-grid,
+      .workflow,
+      .methods {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        flex-direction: column;
+        justify-content: center;
+        padding: 15px 0;
+      }
+
+      .hero {
+        padding-top: 65px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">TaskEscrow</div>
+      <div class="badge">GenLayer Studio Dev • Chain ID 61997</div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="container">
+      <h1>AI-Verified <span>Task Completion</span></h1>
+
+      <p>
+        TaskEscrow uses GenLayer Intelligent Contracts, AI-assisted
+        evidence evaluation and validator consensus to record transparent
+        task-completion decisions onchain.
+      </p>
+
+      <div class="buttons">
+        <a
+          class="button primary"
+          href="https://explorer-studio-dev.genlayer.com/address/0x2Ca21453a7454bF1A2Ae5F77c4a83A6aE1A8dED9"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View Live Contract
+        </a>
+
+        <a
+          class="button"
+          href="https://github.com/Rs0024/taskescrow-genlayer"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub Source
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Live Intelligent Contract</h2>
+        <p>TaskEscrow deployment on GenLayer Studio Dev.</p>
+      </div>
+
+      <div class="contract-card">
+
+        <div class="status">DEPLOYED</div>
+
+        <div class="contract-grid">
+
+          <div class="field">
+            <small>Network</small>
+            GenLayer Studio Dev
+          </div>
+
+          <div class="field">
+            <small>Chain ID</small>
+            61997
+          </div>
+
+          <div class="field">
+            <small>Contract Address</small>
+            <div class="address">
+              0x2Ca21453a7454bF1A2Ae5F77c4a83A6aE1A8dED9
+            </div>
+          </div>
+
+          <div class="field">
+            <small>Decision States</small>
+            approved / rejected
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+
+      <div class="section-title">
+        <h2>How TaskEscrow Works</h2>
+        <p>A simple evidence-based verification workflow.</p>
+      </div>
+
+      <div class="workflow">
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Record Funding State</h3>
+          <p>
+            The workflow begins with a configured task and reward amount.
+            Calling mark_funded() records that the task is ready for work
+            submission.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Submit Evidence</h3>
+          <p>
+            A public evidence URL is submitted through submit_work().
+            The contract stores the evidence and moves the task to the
+            submitted state.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>AI Verification</h3>
+          <p>
+            verify_task() evaluates the evidence using GenLayer
+            nondeterministic AI execution and validator consensus.
+            The final state becomes approved or rejected.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Contract Workflow</h2>
+        <p>Public methods exposed by the TaskEscrow contract.</p>
+      </div>
+
+      <div class="methods">
+
+        <div class="method-box">
+          <h3>Write Methods</h3>
+
+          <code>mark_funded()</code>
+          <code>submit_work(evidence_url)</code>
+          <code>verify_task()</code>
+        </div>
+
+        <div class="method-box">
+          <h3>Read Methods</h3>
+
+          <code>get_status()</code>
+          <code>get_evidence_url()</code>
+          <code>get_task_description()</code>
+          <code>get_reward_amount()</code>
+        </div>
+
+      </div>
+
+      <div class="note">
+        TaskEscrow currently demonstrates an AI-verified task and
+        settlement-decision workflow. The configured reward amount and
+        funded status are recorded as workflow data; this version does
+        not automatically custody or transfer tokens.
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+
+      <div class="section-title">
+        <h2>Project Resources</h2>
+        <p>Review the source, deployment and working demonstration.</p>
+      </div>
+
+      <div class="buttons">
+
+        <a
+          class="button primary"
+          href="https://github.com/Rs0024/taskescrow-genlayer"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Source Code
+        </a>
+
+        <a
+          class="button"
+          href="https://explorer-studio-dev.genlayer.com/address/0x2Ca21453a7454bF1A2Ae5F77c4a83A6aE1A8dED9"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Studio Dev Deployment
+        </a>
+
+        <a
+          class="button"
+          href="https://x.com/ritesharma24/status/2099916094882660833"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Watch Demo
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    TaskEscrow • Built with GenLayer Intelligent Contracts
+  </div>
+</footer>
+
+</body>
+</html>
